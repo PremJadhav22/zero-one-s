@@ -9,12 +9,15 @@ import { useWallet } from "@/hooks/use-wallet"
 import NftDisplay from "@/components/dashboard/nft-display"
 import ScoreBreakdown from "@/components/dashboard/score-breakdown"
 import GraphView from "@/components/dashboard/graph-view"
+import { fetchUserData } from "@shared/utils/api"
+import { User } from "@shared/types/user"
 
 export default function DashboardPage() {
   const { isConnected, ensName } = useWallet()
   const searchParams = useSearchParams()
   const isDemo = searchParams.get("demo") === "true"
   const [isLoading, setIsLoading] = useState(true)
+  const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => {
     // Simulate loading
@@ -23,6 +26,10 @@ export default function DashboardPage() {
     }, 1500)
 
     return () => clearTimeout(timer)
+  }, [])
+
+  useEffect(() => {
+    fetchUserData().then(setUser).catch(console.error)
   }, [])
 
   if (!isConnected && !isDemo) {
@@ -63,6 +70,9 @@ export default function DashboardPage() {
               </TabsContent>
             </Tabs>
           </div>
+        </div>
+        <div className="mt-4">
+          {user ? `Welcome, ${user.name}` : "Loading..."}
         </div>
       </motion.div>
     </main>

@@ -1,19 +1,15 @@
+"use client"
+
 import type React from "react"
-import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import Navbar from "@/components/layout/navbar"
 import Footer from "@/components/layout/footer"
 import { WalletProvider } from "@/components/providers/wallet-provider"
+import ClientAuth from "@/components/ClientAuth"
 
 const inter = Inter({ subsets: ["latin"] })
-
-export const metadata: Metadata = {
-  title: "NeuralTrust - AI-Powered Reputation for Web3",
-  description: "Know who to trust in a trustless world.",
-    generator: 'v0.dev'
-}
 
 export default function RootLayout({
   children,
@@ -27,6 +23,7 @@ export default function RootLayout({
           <WalletProvider>
             <div className="relative flex min-h-screen flex-col">
               <Navbar />
+              <ClientAuth />
               <div className="flex-1">{children}</div>
               <Footer />
             </div>
